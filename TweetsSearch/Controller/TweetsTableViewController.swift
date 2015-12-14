@@ -89,9 +89,19 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         if let tweet: Tweet = tweetList[indexPath.row] {
             if let name = tweet.name {
                 cell.nameLabel.text = name
+                
+                let calculationView = UILabel()
+                calculationView.numberOfLines = 0
+                let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(17), NSForegroundColorAttributeName : UIColor.blackColor()]
+                calculationView.attributedText = NSAttributedString(string: tweet.name!, attributes: attributes)
+                let size:CGSize = calculationView.sizeThatFits(CGSizeMake(900, 21))
+                print("text width \(size.width)")
+                var rect = cell.nameLabel.frame
+                rect.size.width = size.width
+                cell.nameLabel.frame = rect
             }
             if let handle = tweet.twitterHandle {
-                cell.twitterHandle.text = handle
+                cell.twitterHandle.text = "@" + handle
             }
             if let URL = tweet.profileImageURL {
                 cell.profileImageView.sd_setImageWithURL(NSURL(string: URL))
@@ -116,17 +126,7 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         calculationTitleView.attributedText = NSAttributedString(string: tweet.text!, attributes: labelAttributes)
         let labelViewWidth:CGFloat = CGRectGetWidth(self.view.frame) - 48
         let titlesize:CGSize = calculationTitleView.sizeThatFits(CGSizeMake(labelViewWidth, 900))
-        print("description \(titlesize.height)")
-
         return titlesize.height
-        
-//        let calculationView = UILabel()
-//        calculationView.numberOfLines = 0
-//        let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(12), NSForegroundColorAttributeName : UIColor.blackColor()]
-//        calculationView.attributedText = NSAttributedString(string: tweet.valueForKey("long_description") as! String, attributes: attributes)
-//        let textViewWidth:CGFloat = CGRectGetWidth(self.view.frame) - 127.5
-//        let size:CGSize = calculationView.sizeThatFits(CGSizeMake(textViewWidth, 900))
-//        return size.height + titlesize.height
     }
 
     /*
