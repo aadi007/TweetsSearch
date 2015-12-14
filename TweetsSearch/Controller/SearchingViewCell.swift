@@ -10,6 +10,7 @@ import UIKit
 
 class SearchingViewCell: UITableViewCell {
 
+    @IBOutlet weak var busyIndicator: UIActivityIndicatorView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

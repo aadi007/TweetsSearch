@@ -91,35 +91,45 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(twitterCellidentifier, forIndexPath: indexPath) as! TweetViewCell
-        if let tweet: Tweet = tweetList[indexPath.row] {
-            if let name = tweet.name {
-                cell.nameLabel.text = name
-                let calculationView = UILabel()
-                calculationView.numberOfLines = 0
-                let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(17), NSForegroundColorAttributeName : UIColor.blackColor()]
-                calculationView.attributedText = NSAttributedString(string: tweet.name!, attributes: attributes)
-                let size:CGSize = calculationView.sizeThatFits(CGSizeMake(900, 21))
-                var rect = cell.nameLabel.frame
-                rect.size.width = size.width
-                cell.nameLabel.frame = rect
+        if searching {
+            let cell = tableView.dequeueReusableCellWithIdentifier(busyCellidentifier, forIndexPath: indexPath) as! SearchingViewCell
+            cell.busyIndicator.startAnimating()
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(twitterCellidentifier, forIndexPath: indexPath) as! TweetViewCell
+            if let tweet: Tweet = tweetList[indexPath.row] {
+                if let name = tweet.name {
+                    cell.nameLabel.text = name
+                    let calculationView = UILabel()
+                    calculationView.numberOfLines = 0
+                    let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(17), NSForegroundColorAttributeName : UIColor.blackColor()]
+                    calculationView.attributedText = NSAttributedString(string: tweet.name!, attributes: attributes)
+                    let size:CGSize = calculationView.sizeThatFits(CGSizeMake(900, 21))
+                    var rect = cell.nameLabel.frame
+                    rect.size.width = size.width
+                    cell.nameLabel.frame = rect
+                }
+                if let handle = tweet.twitterHandle {
+                    cell.twitterHandle.text = "@" + handle
+                }
+                if let URL = tweet.profileImageURL {
+                    cell.profileImageView.sd_setImageWithURL(NSURL(string: URL))
+                }
+                if let text = tweet.text {
+                    cell.descriptionText.text = text
+                }
+                cell.selectionStyle = .None
             }
-            if let handle = tweet.twitterHandle {
-                cell.twitterHandle.text = "@" + handle
-            }
-            if let URL = tweet.profileImageURL {
-                cell.profileImageView.sd_setImageWithURL(NSURL(string: URL))
-            }
-            if let text = tweet.text {
-                cell.descriptionText.text = text
-            }
-            cell.selectionStyle = .None
+            return cell
         }
-        return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return labelHeightForRowAtIndexPath(indexPath) + 67
+        if searching {
+            return 45
+        } else {
+            return labelHeightForRowAtIndexPath(indexPath) + 67
+        }
     }
     
     func labelHeightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {

@@ -88,7 +88,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="W2P-ta-COm">
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="W2P-ta-COm">
                                             <rect key="frame" x="248" y="12" width="20" height="20"/>
                                         </activityIndicatorView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGC-f1-2M7">
@@ -109,6 +109,9 @@
                                         <constraint firstItem="W2P-ta-COm" firstAttribute="centerY" secondItem="le7-ut-pTO" secondAttribute="centerY" id="nfF-Vq-A9a"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="busyIndicator" destination="W2P-ta-COm" id="xK8-0t-6lR"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
