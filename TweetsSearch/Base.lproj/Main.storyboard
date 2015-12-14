@@ -55,6 +55,7 @@
                                         </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="8LL-LA-caj" firstAttribute="top" secondItem="ppA-xi-2cc" secondAttribute="bottom" constant="8" id="4Nq-Iv-HEs"/>
                                         <constraint firstItem="ePB-lh-9uE" firstAttribute="leading" secondItem="ppA-xi-2cc" secondAttribute="trailing" constant="18" id="6tH-4J-aXb"/>
                                         <constraint firstItem="ijH-zk-WEh" firstAttribute="leading" secondItem="Oc1-85-Rbv" secondAttribute="leading" constant="8" id="Rht-Nz-TxG"/>
                                         <constraint firstAttribute="trailing" secondItem="ePB-lh-9uE" secondAttribute="trailing" constant="8" id="V8E-US-wUr"/>
@@ -67,6 +68,11 @@
                                         <constraint firstAttribute="trailing" secondItem="8LL-LA-caj" secondAttribute="trailing" constant="8" id="v1w-iL-caZ"/>
                                         <constraint firstItem="ppA-xi-2cc" firstAttribute="leading" secondItem="ijH-zk-WEh" secondAttribute="trailing" constant="8" id="x0w-zT-0z5"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="hh7-ou-bd4"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="descriptionText" destination="8LL-LA-caj" id="nAM-Jv-HGb"/>

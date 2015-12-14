@@ -102,6 +102,32 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         }
         return cell
     }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return labelHeightForRowAtIndexPath(indexPath) + 67
+    }
+    
+    func labelHeightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
+        let tweet = tweetList[indexPath.row]
+        
+        let calculationTitleView = UILabel()
+        calculationTitleView.numberOfLines = 0
+        let labelAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(14), NSForegroundColorAttributeName : UIColor.blackColor()]
+        calculationTitleView.attributedText = NSAttributedString(string: tweet.text!, attributes: labelAttributes)
+        let labelViewWidth:CGFloat = CGRectGetWidth(self.view.frame) - 48
+        let titlesize:CGSize = calculationTitleView.sizeThatFits(CGSizeMake(labelViewWidth, 900))
+        print("description \(titlesize.height)")
+
+        return titlesize.height
+        
+//        let calculationView = UILabel()
+//        calculationView.numberOfLines = 0
+//        let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(12), NSForegroundColorAttributeName : UIColor.blackColor()]
+//        calculationView.attributedText = NSAttributedString(string: tweet.valueForKey("long_description") as! String, attributes: attributes)
+//        let textViewWidth:CGFloat = CGRectGetWidth(self.view.frame) - 127.5
+//        let size:CGSize = calculationView.sizeThatFits(CGSizeMake(textViewWidth, 900))
+//        return size.height + titlesize.height
+    }
 
     /*
     // Override to support conditional editing of the table view.
