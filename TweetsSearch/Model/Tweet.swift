@@ -19,8 +19,10 @@ class Tweet: NSObject {
     init(json: JSON) {
         super.init()
         self.text = json["text"].string
-        self.name = json["name"].string
-        self.profileImageURL = json["profile_image_url_https"].string
-        self.twitterHandle = json["screen_name"].string
+        if let user = json["user"].dictionary {
+            self.name = user["name"]!.string
+            self.profileImageURL = user["profile_image_url_https"]!.string
+            self.twitterHandle = user["screen_name"]!.string
+        }
     }
 }
