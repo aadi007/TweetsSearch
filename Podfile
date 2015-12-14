@@ -5,6 +5,8 @@
 
 target 'TweetsSearch' do
 pod 'STTwitter'
+pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+pod 'SDWebImage', '~>3.7'
 use_frameworks!
 end
 

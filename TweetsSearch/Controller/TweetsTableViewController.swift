@@ -8,9 +8,12 @@
 
 import UIKit
 import STTwitter
+import SwiftyJSON
+import SDWebImage
 
 class TweetsTableViewController: UITableViewController, UISearchResultsUpdating {
     let searchController = UISearchController(searchResultsController: nil)
+    private let twitterCellidentifier = "twitterIdentifier"
     
     var tweetList = [Tweet]()
     var hasTag = "#SalmaanFree"
@@ -20,6 +23,7 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
 
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = hasTag
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
@@ -34,12 +38,29 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         twitter.verifyCredentialsWithUserSuccessBlock({ (userName, userId) -> Void in
             //query with the particular string
             twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
+                print("results meta data \(searchMetadata)")
                 
-                print("got it")
+                //remove elements from old list 
+                self.tweetList.removeAll()
                 
+                let json = JSON(results)
+                print("json Obj \(json)")
                 //iterate and insert into model
+                for (_,subJson):(String, JSON) in json {
+                    if let _ = subJson["text"].string {
+                        let tweet = Tweet(json: subJson)
+                        self.tweetList.append(tweet)
+                    } else {
+                        print("no text available")
+                    }
+                }
                 
                 //refresh or reload the table with the data fetched
+                if self.tweetList.count > 0 {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.tableView.reloadData()
+                    })
+                }
                 
                 }, errorBlock: { (error) -> Void in
                     print("error description while fetching tweets for particular hastag")
@@ -64,8 +85,21 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
+        let cell = tableView.dequeueReusableCellWithIdentifier(twitterCellidentifier, forIndexPath: indexPath) as! TweetViewCell
+        if let tweet: Tweet = tweetList[indexPath.row] {
+            if let name = tweet.name {
+                cell.nameLabel.text = name
+            }
+            if let handle = tweet.twitterHandle {
+                cell.twitterHandle.text = handle
+            }
+            if let URL = tweet.profileImageURL {
+                cell.profileImageView.sd_setImageWithURL(NSURL(string: URL))
+            }
+            if let text = tweet.text {
+                cell.descriptionText.text = text
+            }
+        }
         return cell
     }
 

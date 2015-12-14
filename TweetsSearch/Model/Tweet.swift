@@ -7,7 +7,20 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class Tweet: NSObject {
 
+    var text: String?
+    var name: String?
+    var profileImageURL: String?
+    var twitterHandle: String?
+    
+    init(json: JSON) {
+        super.init()
+        self.text = json["text"].string
+        self.name = json["name"].string
+        self.profileImageURL = json["profile_image_url_https"].string
+        self.twitterHandle = json["screen_name"].string
+    }
 }

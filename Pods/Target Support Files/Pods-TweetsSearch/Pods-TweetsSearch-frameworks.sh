@@ -84,8 +84,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-TweetsSearch/SDWebImage.framework"
   install_framework "Pods-TweetsSearch/STTwitter.framework"
+  install_framework "Pods-TweetsSearch/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-TweetsSearch/SDWebImage.framework"
   install_framework "Pods-TweetsSearch/STTwitter.framework"
+  install_framework "Pods-TweetsSearch/SwiftyJSON.framework"
 fi

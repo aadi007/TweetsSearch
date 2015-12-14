@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '9A7E87D6B77172E3AE47FC4F'
+               BlueprintIdentifier = '39E754636935EAF24E0D0411'
                BlueprintName = 'Pods-TweetsSearch'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'Pods_TweetsSearch.framework'>
