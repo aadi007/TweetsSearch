@@ -11,18 +11,17 @@ import STTwitter
 import SwiftyJSON
 import SDWebImage
 
-class TweetsTableViewController: UITableViewController, UISearchResultsUpdating {
+class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     private let twitterCellidentifier = "twitterIdentifier"
     
     var tweetList = [Tweet]()
-    var hasTag = "#SalmaanFree"
+    var hasTag = "#Quantico"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.dimsBackgroundDuringPresentation = true
         searchController.searchBar.placeholder = hasTag
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
@@ -38,13 +37,12 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         twitter.verifyCredentialsWithUserSuccessBlock({ (userName, userId) -> Void in
             //query with the particular string
             twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
-                print("results meta data \(searchMetadata)")
-                
+//                print("results meta data \(searchMetadata)")
                 //remove elements from old list 
                 self.tweetList.removeAll()
                 
                 let json = JSON(results)
-                print("json Obj \(json)")
+//                print("json Obj \(json)")
                 //iterate and insert into model
                 for (_,subJson):(String, JSON) in json {
                     if let _ = subJson["text"].string {
@@ -73,7 +71,6 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -95,7 +92,6 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
                 let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(17), NSForegroundColorAttributeName : UIColor.blackColor()]
                 calculationView.attributedText = NSAttributedString(string: tweet.name!, attributes: attributes)
                 let size:CGSize = calculationView.sizeThatFits(CGSizeMake(900, 21))
-                print("text width \(size.width)")
                 var rect = cell.nameLabel.frame
                 rect.size.width = size.width
                 cell.nameLabel.frame = rect
@@ -109,6 +105,7 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
             if let text = tweet.text {
                 cell.descriptionText.text = text
             }
+            cell.selectionStyle = .None
         }
         return cell
     }
@@ -129,16 +126,14 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         return titlesize.height
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-    
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        print("search text: \(searchController.searchBar.text)")
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        print("\(searchBar.text)")
+        if let text = searchBar.text {
+            hasTag = "#" + text
+            searchBar.placeholder = hasTag
+            fetchTweets()
+            searchController.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     /*
