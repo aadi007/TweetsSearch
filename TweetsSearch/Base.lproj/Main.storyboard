@@ -8,22 +8,14 @@
         <!--Search Tweets with hash tags-->
         <scene sceneID="7bU-jd-o8J">
             <objects>
-                <tableViewController id="Ztg-DV-Wks" sceneMemberID="viewController">
+                <tableViewController id="Ztg-DV-Wks" customClass="TweetsTableViewController" customModule="TweetsSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" id="Rsx-Kr-7SW">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="e.g #SalmaanFree" id="Xzc-qE-lH5">
-                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="Ztg-DV-Wks" id="Gnf-HH-t1g"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="69" id="X9Q-wB-XHY">
-                                <rect key="frame" x="0.0" y="136" width="600" height="69"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="69"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X9Q-wB-XHY" id="Oc1-85-Rbv">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="68"/>
@@ -45,7 +37,6 @@
                 <searchDisplayController id="ZAc-eM-j00">
                     <connections>
                         <outlet property="delegate" destination="Ztg-DV-Wks" id="Ni1-bz-7vr"/>
-                        <outlet property="searchBar" destination="Xzc-qE-lH5" id="5U9-cH-12o"/>
                         <outlet property="searchContentsController" destination="Ztg-DV-Wks" id="ij1-T5-eFT"/>
                         <outlet property="searchResultsDataSource" destination="Ztg-DV-Wks" id="j1S-ro-ZZ9"/>
                         <outlet property="searchResultsDelegate" destination="Ztg-DV-Wks" id="avK-au-1Ts"/>

@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import STTwitter
 
 class TweetsTableViewController: UITableViewController, UISearchResultsUpdating {
     let searchController = UISearchController(searchResultsController: nil)
     
     var tweetList = [Tweet]()
+    var hasTag = "#SalmaanFree"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,11 +23,31 @@ class TweetsTableViewController: UITableViewController, UISearchResultsUpdating 
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        fetchTweets()
+    }
+    
+    func fetchTweets() {
+        // initaite twitter instance with consumner Key and consumer secret key
+        let twitter = STTwitterAPI(appOnlyWithConsumerKey: "5TJyOyMKNVF2mrx7vY9bc0Zgb", consumerSecret: "iLIiO97vOUc4mH67Yf6my3FrAI4LfJS6eYTFsuDc1FJTNAxzVf")
+        
+        // verify twitter credentials
+        twitter.verifyCredentialsWithUserSuccessBlock({ (userName, userId) -> Void in
+            //query with the particular string
+            twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
+                
+                print("got it")
+                
+                //iterate and insert into model
+                
+                //refresh or reload the table with the data fetched
+                
+                }, errorBlock: { (error) -> Void in
+                    print("error description while fetching tweets for particular hastag")
+            })
+            
+            }) { (error) -> Void in
+                print("error \(error.localizedDescription)")
+        }
     }
 
     override func didReceiveMemoryWarning() {

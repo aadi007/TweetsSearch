@@ -50,6 +50,7 @@
 		2106BB061C1EFEEE0021C71C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2106BB131C1EFFC70021C71C /* TweetsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TweetsTableViewController.swift; path = Controller/TweetsTableViewController.swift; sourceTree = "<group>"; };
 		2106BB161C1F10510021C71C /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tweet.swift; path = Model/Tweet.swift; sourceTree = "<group>"; };
+		2106BB181C1F13070021C71C /* TweetsSearch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TweetsSearch-Bridging-Header.h"; sourceTree = "<group>"; };
 		6232FE56E03032E0D6BE072B /* Pods-TweetsSearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweetsSearch.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TweetsSearch/Pods-TweetsSearch.debug.xcconfig"; sourceTree = "<group>"; };
 		D8529A24120E328906C1AD92 /* Pods-TweetsSearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TweetsSearch.release.xcconfig"; path = "Pods/Target Support Files/Pods-TweetsSearch/Pods-TweetsSearch.release.xcconfig"; sourceTree = "<group>"; };
 		E0084ACF109592AAC0AB3CEF /* Pods_TweetsSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TweetsSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,6 +114,7 @@
 				2106BAEB1C1EFEEE0021C71C /* Assets.xcassets */,
 				2106BAED1C1EFEEE0021C71C /* LaunchScreen.storyboard */,
 				2106BAF01C1EFEEE0021C71C /* Info.plist */,
+				2106BB181C1F13070021C71C /* TweetsSearch-Bridging-Header.h */,
 			);
 			path = TweetsSearch;
 			sourceTree = "<group>";
@@ -493,10 +495,13 @@
 			baseConfigurationReference = 6232FE56E03032E0D6BE072B /* Pods-TweetsSearch.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TweetsSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aadeshWorld.TweetsSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TweetsSearch/TweetsSearch-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -505,10 +510,12 @@
 			baseConfigurationReference = D8529A24120E328906C1AD92 /* Pods-TweetsSearch.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = TweetsSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aadeshWorld.TweetsSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TweetsSearch/TweetsSearch-Bridging-Header.h";
 			};
 			name = Release;
 		};
