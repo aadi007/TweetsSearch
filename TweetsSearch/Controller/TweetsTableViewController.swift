@@ -19,6 +19,10 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     
     var tweetList = [Tweet]()
     var hasTag = "#Quantico"
+    var timerSet = false
+    
+    // initaite twitter instance with consumner Key and consumer secret key
+    let twitter = STTwitterAPI(appOnlyWithConsumerKey: "5TJyOyMKNVF2mrx7vY9bc0Zgb", consumerSecret: "iLIiO97vOUc4mH67Yf6my3FrAI4LfJS6eYTFsuDc1FJTNAxzVf")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,20 +36,27 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func fetchTweets() {
-        
-        // initaite twitter instance with consumner Key and consumer secret key
-        let twitter = STTwitterAPI(appOnlyWithConsumerKey: "5TJyOyMKNVF2mrx7vY9bc0Zgb", consumerSecret: "iLIiO97vOUc4mH67Yf6my3FrAI4LfJS6eYTFsuDc1FJTNAxzVf")
         searching = true
         //remove elements from old list
         self.tweetList.removeAll()
         self.tableView.reloadData()
         
+        queryTweets(true)
+    }
+    
+    func queryTweets(new: Bool) {
+        
+        if !new {
+            self.tweetList.removeAll()
+        }
+        
         // verify twitter credentials
         twitter.verifyCredentialsWithUserSuccessBlock({ (userName, userId) -> Void in
             //query with the particular string
-            twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
+            self.twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
                 self.searching = false
                 let json = JSON(results)
+                print("json count each time \(json.count)")
                 //iterate and insert into model
                 for (_,subJson):(String, JSON) in json {
                     if let _ = subJson["text"].string {
@@ -63,6 +74,8 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
                     })
                 }
                 
+                self.setTimer()
+                
                 }, errorBlock: { (error) -> Void in
                     self.searching = false
                     print("error description while fetching tweets for particular hastag")
@@ -72,6 +85,19 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
                 self.searching = false
                 print("error \(error.localizedDescription)")
         }
+    }
+    
+    func setTimer() {
+        if !timerSet {
+            //start the timer of 2 seconds
+            NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "refreshTweets", userInfo: nil, repeats: true)
+            timerSet = true
+        }
+    }
+    
+    func refreshTweets() {
+//        print("called this function")
+        queryTweets(false)
     }
 
     override func didReceiveMemoryWarning() {
