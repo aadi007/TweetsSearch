@@ -81,6 +81,35 @@
                                     <outlet property="twitterHandle" destination="ePB-lh-9uE" id="PZS-jI-nUx"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="busyIdentifierCell" rowHeight="45" id="D3J-Uq-08I" customClass="SearchingViewCell" customModule="TweetsSearch" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="161" width="600" height="45"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="D3J-Uq-08I" id="le7-ut-pTO">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="W2P-ta-COm">
+                                            <rect key="frame" x="248" y="12" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGC-f1-2M7">
+                                            <rect key="frame" x="276" y="12" width="100" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="mDf-Up-iM4"/>
+                                                <constraint firstAttribute="height" constant="21" id="z5D-RS-nsk"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="FGC-f1-2M7" firstAttribute="centerY" secondItem="le7-ut-pTO" secondAttribute="centerY" id="3if-qI-ETA"/>
+                                        <constraint firstItem="W2P-ta-COm" firstAttribute="centerX" secondItem="le7-ut-pTO" secondAttribute="centerX" constant="-42" id="LAD-eh-g8Z"/>
+                                        <constraint firstItem="FGC-f1-2M7" firstAttribute="leading" secondItem="W2P-ta-COm" secondAttribute="trailing" constant="8" id="VN6-Nh-DQi"/>
+                                        <constraint firstItem="W2P-ta-COm" firstAttribute="centerY" secondItem="le7-ut-pTO" secondAttribute="centerY" id="nfF-Vq-A9a"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Ztg-DV-Wks" id="HGi-Ed-PdT"/>

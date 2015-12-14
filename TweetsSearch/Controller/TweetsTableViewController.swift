@@ -14,6 +14,8 @@ import SDWebImage
 class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     private let twitterCellidentifier = "twitterIdentifier"
+    private let busyCellidentifier = "busyIdentifierCell"
+    private var searching = false
     
     var tweetList = [Tweet]()
     var hasTag = "#Quantico"
@@ -30,19 +32,20 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func fetchTweets() {
+        
         // initaite twitter instance with consumner Key and consumer secret key
         let twitter = STTwitterAPI(appOnlyWithConsumerKey: "5TJyOyMKNVF2mrx7vY9bc0Zgb", consumerSecret: "iLIiO97vOUc4mH67Yf6my3FrAI4LfJS6eYTFsuDc1FJTNAxzVf")
+        searching = true
+        //remove elements from old list
+        self.tweetList.removeAll()
+        self.tableView.reloadData()
         
         // verify twitter credentials
         twitter.verifyCredentialsWithUserSuccessBlock({ (userName, userId) -> Void in
             //query with the particular string
             twitter.getSearchTweetsWithQuery(self.hasTag, successBlock: { (searchMetadata, results) -> Void in
-//                print("results meta data \(searchMetadata)")
-                //remove elements from old list 
-                self.tweetList.removeAll()
-                
+                self.searching = false
                 let json = JSON(results)
-//                print("json Obj \(json)")
                 //iterate and insert into model
                 for (_,subJson):(String, JSON) in json {
                     if let _ = subJson["text"].string {
@@ -61,10 +64,12 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
                 }
                 
                 }, errorBlock: { (error) -> Void in
+                    self.searching = false
                     print("error description while fetching tweets for particular hastag")
             })
             
             }) { (error) -> Void in
+                self.searching = false
                 print("error \(error.localizedDescription)")
         }
     }
@@ -78,7 +83,11 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tweetList.count
+        if searching {
+            return 1
+        } else {
+            return tweetList.count
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -86,7 +95,6 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
         if let tweet: Tweet = tweetList[indexPath.row] {
             if let name = tweet.name {
                 cell.nameLabel.text = name
-                
                 let calculationView = UILabel()
                 calculationView.numberOfLines = 0
                 let attributes = [NSFontAttributeName : UIFont.systemFontOfSize(17), NSForegroundColorAttributeName : UIColor.blackColor()]
@@ -116,7 +124,6 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
     
     func labelHeightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat {
         let tweet = tweetList[indexPath.row]
-        
         let calculationTitleView = UILabel()
         calculationTitleView.numberOfLines = 0
         let labelAttributes = [NSFontAttributeName : UIFont.systemFontOfSize(14), NSForegroundColorAttributeName : UIColor.blackColor()]
@@ -135,42 +142,4 @@ class TweetsTableViewController: UITableViewController, UISearchBarDelegate {
             searchController.dismissViewControllerAnimated(true, completion: nil)
         }
     }
-    
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
